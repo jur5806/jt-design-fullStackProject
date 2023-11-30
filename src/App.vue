@@ -1,18 +1,41 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
 
 <template>
-  <div>
+  <!-- <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
-  </div>
+  </div> -->
+  <div> pinia : {{ Test.current }} --- {{ Test.name }}</div>
+  <div> pinia2 : {{ current }} --- {{ name }}</div>
+  <div> 异步 : {{ Test.user}}</div>
+  <button @click="changeStore">change</button>
+  <button @click="reset">reset</button>
   <HelloWorld msg="Vite + Vue" />
 </template>
+
+<script setup lang="ts">
+import { userTestStore } from './store'
+import { storeToRefs } from 'pinia'
+import HelloWorld from './components/HelloWorld.vue'
+
+const Test = userTestStore()
+const {current, name} = storeToRefs(Test);
+
+const changeStore = ()=>{
+  Test.setCurrent(475)
+  Test.setPromise()
+  console.log(current,name)
+}
+const reset =()=>{
+  Test.$reset()
+}
+
+
+</script>
+
 
 <style scoped>
 .logo {
