@@ -1,37 +1,22 @@
+<!--
+ * @Author: jt 2602818429@qq.com
+ * @Date: 2023-11-30 16:21:52
+ * @LastEditors: jt 2602818429@qq.com
+ * @LastEditTime: 2023-11-30 16:51:27
+ * @FilePath: \jt-design\src\App.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 
 <template>
-  <!-- <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div> -->
-  <div> pinia : {{ Test.current }} --- {{ Test.name }}</div>
-  <div> pinia2 : {{ current }} --- {{ name }}</div>
-  <div> 异步 : {{ Test.user}}</div>
-  <button @click="changeStore">change</button>
-  <button @click="reset">reset</button>
-  <HelloWorld msg="Vite + Vue" />
+  <div>
+    <router-link to="/about">Go to About</router-link>
+    <br />
+    <router-link to="/">Go to Home</router-link>
+    <div><router-view></router-view></div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { userTestStore } from './store'
-import { storeToRefs } from 'pinia'
-import HelloWorld from './components/HelloWorld.vue'
-
-const Test = userTestStore()
-const {current, name} = storeToRefs(Test);
-
-const changeStore = ()=>{
-  Test.setCurrent(475)
-  Test.setPromise()
-  console.log(current,name)
-}
-const reset =()=>{
-  Test.$reset()
-}
 
 
 </script>
