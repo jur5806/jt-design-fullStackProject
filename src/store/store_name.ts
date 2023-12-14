@@ -1,4 +1,5 @@
 
 export const enum Names {
-  TEST = 'Test'
+  TEST = 'Test',
+  COMTEST = 'COMTEST'
 }
