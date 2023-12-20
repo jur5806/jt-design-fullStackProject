@@ -2,7 +2,7 @@
  * @Author: jt 2602818429@qq.com
  * @Date: 2023-11-29 15:48:43
  * @LastEditors: jt 2602818429@qq.com
- * @LastEditTime: 2023-12-14 12:44:02
+ * @LastEditTime: 2023-12-14 15:37:45
  * @FilePath: \jt-design\src\store\index.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -36,8 +36,8 @@ export const userTestStore = defineStore(Names.TEST, {
   },
   //computed 修饰一些值
   getters :{
-    total(){
-      return this.list.reduce((prev,next)=>{ return prev+next},0)
+    total(): any{
+      return this.list.reduce((prev:any,next:any)=>{ return prev+next},0)
     }
 
   },
@@ -46,12 +46,12 @@ export const userTestStore = defineStore(Names.TEST, {
     async setPromise(){//异步
       let r = await setUserList()
       this.user = r
-      this.setCurrent('55') 
+      this.setCurrent(22) 
     },
-    setCurrent(value: number){//同步
-      this.current = value
+    setCurrent(value: any){//同步
+      this.current = Number(value)
     },
-    updateNum(a: number,b: number){
+    updateNum(a: number){
       this.count += a
     }
   }

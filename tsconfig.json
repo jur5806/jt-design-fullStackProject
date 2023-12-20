@@ -22,8 +22,8 @@
     
 
     //路劲配置
-    "baseUrl": "./",
-    "paths": {
+    "baseUrl": "./",//解析非相对模块地址，默认是当前目录
+    "paths": {//路劲映射，相对于baseUrl
       "@/*": ["src/*"]  // 将项目根目录配置别名为@
     },
     "allowSyntheticDefaultImports": true

@@ -21,7 +21,7 @@ console.log(infoStore);
 //修改数据方法
 const updateCount = () => {
   //仓库调用自身的方法去修改仓库的数据
-  infoStore.updateNum(66,77);
+  infoStore.updateNum(66);
 };
 </script>
 

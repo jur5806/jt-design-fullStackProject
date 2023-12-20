@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 //接受props
-let props = defineProps(["modelValue"]);
+let props = defineProps(["modelValue"]); //这里必须使用 modelValue固定的
 let $emit = defineEmits(['update:modelValue']);
 //子组件内部按钮的点击回调
 const handler = ()=>{

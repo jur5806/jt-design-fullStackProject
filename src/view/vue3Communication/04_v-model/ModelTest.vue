@@ -2,7 +2,7 @@
  * @Author: jt 2602818429@qq.com
  * @Date: 2023-12-08 14:07:18
  * @LastEditors: jt 2602818429@qq.com
- * @LastEditTime: 2023-12-13 14:44:35
+ * @LastEditTime: 2023-12-14 15:25:12
  * @FilePath: \jt-design\src\view\vue3Communication\04_v-model\ModelTest.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -37,10 +37,10 @@ let info = ref("");
 //父组件的数据钱数
 let money = ref(10000);
 //自定义事件的回调
-const handler = (num) => {
-  //将来接受子组件传递过来的数据
-  money.value = num;
-};
+// const handler = (num : number):any => {
+//   //将来接受子组件传递过来的数据
+//   money.value = num;
+// };
 
 //父亲的数据
 let pageNo = ref(1);

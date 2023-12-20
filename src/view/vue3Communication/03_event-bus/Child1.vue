@@ -2,7 +2,7 @@
  * @Author: jt 2602818429@qq.com
  * @Date: 2023-12-08 14:07:18
  * @LastEditors: jt 2602818429@qq.com
- * @LastEditTime: 2023-12-13 14:42:18
+ * @LastEditTime: 2023-12-14 15:33:12
  * @FilePath: \jt-design\src\view\vue3Communication\03_event-bus\Child1.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -23,7 +23,7 @@ onMounted(() => {
   $bus.on("car", (car) => {
     console.log(car);
   });
-  $bus.on('wife', (wife)=>{
+  $bus.on('wife', (wife:any)=>{
     console.log(wife.wife)
     wifes.value = wife.wife
 
