@@ -3,8 +3,8 @@ import request from '@/utils/request';
 import type { loginForm,loginResponseDate,userResponseDate} from './type';
 
 enum API{
-  LOGIN_URL="/api/user/login",
-  USERINFO_URL="/api/user/info",
+  LOGIN_URL="/user/login",
+  USERINFO_URL="/user/info",
 }
 
 //暴露请求函数

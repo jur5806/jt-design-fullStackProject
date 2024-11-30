@@ -1,0 +1,55 @@
+// 颜色变量
+$base-color: #f5f7fa;
+$primary-color: #409eff;
+$success-color: #67c23a;
+$warning-color: #e6a23c;
+$danger-color: #f56c6c;
+$info-color: #909399;
+
+// 文字颜色
+$text-primary: #303133;
+$text-regular: #606266;
+$text-secondary: #909399;
+$text-placeholder: #c0c4cc;
+
+// 边框颜色
+$border-color: #dcdfe6;
+$border-light: #e4e7ed;
+$border-lighter: #ebeef5;
+
+// 背景颜色
+$background-color: #f5f7fa;
+$sidebar-bg-color: #f5f7fa;
+
+// 字体大小
+$font-size-large: 18px;
+$font-size-medium: 16px;
+$font-size-base: 14px;
+$font-size-small: 13px;
+$font-size-mini: 12px;
+
+// 间距
+$spacing-large: 24px;
+$spacing-medium: 16px;
+$spacing-base: 12px;
+$spacing-small: 8px;
+$spacing-mini: 4px;
+
+// 布局相关
+$header-height: 60px;
+$sidebar-width: 200px;
+
+// Mixins
+@mixin text-overflow($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+ 

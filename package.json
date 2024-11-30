@@ -10,14 +10,23 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@vueuse/core": "^10.7.0",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.6.2",
+    "dayjs": "^1.11.10",
+    "echarts": "^5.4.3",
     "element-plus": "^2.4.3",
+    "js-cookie": "^3.0.5",
     "mitt": "^3.0.1",
+    "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@types/nprogress": "^0.2.3",
     "@types/vue-router": "^2.0.0",
     "@vitejs/plugin-vue": "^4.5.0",
     "fast-glob": "^3.3.2",

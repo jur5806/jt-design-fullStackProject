@@ -6,73 +6,209 @@
  * @FilePath: \jt-design\mock\user.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-//用户信息数据
-//createUserList : 函数执行会返回一个数组
-function createUserList(){
-  return [
-      {
-          userId: 1,
-          avatar:
-              'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-          username: 'admin',
-          password: '111111',
-          desc: '平台管理员',
-          roles: ['平台管理员'],
-          buttons: ['cuser.detail'],
-          routes: ['home'],
-          token: 'Admin Token',
-      },
-      {
-          userId: 2,
-          avatar:
-              'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-          username: 'system',
-          password: '111111',
-          desc: '系统管理员',
-          roles: ['系统管理员'],
-          buttons: ['cuser.detail', 'cuser.user'],
-          routes: ['home'],
-          token: 'System Token',
-      },
-  ]
-}
+import { MockMethod } from 'vite-plugin-mock'
+
+// 模拟用户数据
+const users = [
+  {
+    id: 1,
+    username: 'admin',
+    password: '123456',
+    email: 'admin@example.com',
+    avatar: 'https://avatars.githubusercontent.com/u/1?v=4',
+    nickname: '管理员',
+    role: 'admin',
+    createTime: '2024-01-01 00:00:00',
+    lastLoginTime: '2024-01-20 12:00:00',
+    status: 1
+  }
+]
 
 export default [
-  // 用户登录接口
+  // 登录接口
   {
-    url: '/api/user/login',//请求地址
-    method: 'post',//请求方式
+    url: '/api/user/login',
+    method: 'post',
     response: ({ body }) => {
-        //获取请求体携带过来的用户名与密码
-        const { username, password } = body;
-        //调用获取用户信息函数,用于判断是否有此用户
-        const checkUser = createUserList().find(
-            (item) => item.username === username && item.password === password,
-        )
-        //没有用户返回失败信息
-        if (!checkUser) {
-            return { code: 201, data: { message: '账号或者密码不正确' } }
+      const { username, password } = body
+      const user = users.find(u => u.username === username)
+
+      if (!user) {
+        return {
+          code: 401,
+          message: '用户不存在'
         }
-        //如果有返回成功信息
-        const { token } = checkUser
-        return { code: 200, data: { token } }
-    },
-},
-// 获取用户信息
-{
+      }
+
+      if (user.password !== password) {
+        return {
+          code: 401,
+          message: '密码错误'
+        }
+      }
+
+      return {
+        code: 200,
+        message: '登录成功',
+        data: {
+          token: `mock-token-${username}`,
+          user: {
+            ...user,
+            password: undefined
+          }
+        }
+      }
+    }
+  },
+
+  // 获取用户信息
+  {
     url: '/api/user/info',
     method: 'get',
-    response: (request) => {
-        //获取请求头携带token
-        const token = request.headers.token;
-        //查看用户信息是否包含有次token用户
-        const checkUser = createUserList().find((item) => item.token === token)
-        //没有返回失败的信息
-        if (!checkUser) {
-            return { code: 201, data: { message: '获取用户信息失败' } }
+    response: ({ headers }) => {
+      const token = headers.authorization?.replace('Bearer ', '')
+      if (!token) {
+        return {
+          code: 401,
+          message: '未登录'
         }
-        //如果有返回成功信息
-        return { code: 200, data: {checkUser} }
-    },
-},
-]
+      }
+
+      const username = token.replace('mock-token-', '')
+      const user = users.find(u => u.username === username)
+
+      if (!user) {
+        return {
+          code: 401,
+          message: '用户不存在'
+        }
+      }
+
+      return {
+        code: 200,
+        message: '获取成功',
+        data: {
+          ...user,
+          password: undefined
+        }
+      }
+    }
+  },
+
+  // 更新用户信息
+  {
+    url: '/api/user/update',
+    method: 'put',
+    response: ({ headers, body }) => {
+      const token = headers.authorization?.replace('Bearer ', '')
+      if (!token) {
+        return {
+          code: 401,
+          message: '未登录'
+        }
+      }
+
+      const username = token.replace('mock-token-', '')
+      const userIndex = users.findIndex(u => u.username === username)
+
+      if (userIndex === -1) {
+        return {
+          code: 401,
+          message: '用户不存在'
+        }
+      }
+
+      users[userIndex] = {
+        ...users[userIndex],
+        ...body,
+        lastLoginTime: new Date().toISOString()
+      }
+
+      return {
+        code: 200,
+        message: '更新成功',
+        data: {
+          ...users[userIndex],
+          password: undefined
+        }
+      }
+    }
+  },
+
+  // 修改密码
+  {
+    url: '/api/user/password',
+    method: 'put',
+    response: ({ headers, body }) => {
+      const token = headers.authorization?.replace('Bearer ', '')
+      if (!token) {
+        return {
+          code: 401,
+          message: '未登录'
+        }
+      }
+
+      const username = token.replace('mock-token-', '')
+      const userIndex = users.findIndex(u => u.username === username)
+
+      if (userIndex === -1) {
+        return {
+          code: 401,
+          message: '用户不存在'
+        }
+      }
+
+      const { oldPassword, newPassword } = body
+      if (users[userIndex].password !== oldPassword) {
+        return {
+          code: 400,
+          message: '原密码错误'
+        }
+      }
+
+      users[userIndex].password = newPassword
+
+      return {
+        code: 200,
+        message: '修改成功'
+      }
+    }
+  },
+
+  // 上传头像
+  {
+    url: '/api/user/avatar',
+    method: 'post',
+    response: ({ headers }) => {
+      const token = headers.authorization?.replace('Bearer ', '')
+      if (!token) {
+        return {
+          code: 401,
+          message: '未登录'
+        }
+      }
+
+      const username = token.replace('mock-token-', '')
+      const userIndex = users.findIndex(u => u.username === username)
+
+      if (userIndex === -1) {
+        return {
+          code: 401,
+          message: '用户不存在'
+        }
+      }
+
+      // 模拟新的头像URL
+      const newAvatar = `https://avatars.githubusercontent.com/u/${Math.floor(Math.random() * 100)}?v=4`
+      users[userIndex].avatar = newAvatar
+
+      return {
+        code: 200,
+        message: '上传成功',
+        data: {
+          url: newAvatar
+        }
+      }
+    }
+  }
+] as MockMethod[]

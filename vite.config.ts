@@ -6,40 +6,52 @@
  * @FilePath: \jt-design\vite.config.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { resolve } from 'path'
 import { viteMockServe } from 'vite-plugin-mock'
 
-// https://vitejs.dev/config/
-export default defineConfig(({command}) =>{
+export default defineConfig(({ command, mode }) => {
+  const env = loadEnv(mode, process.cwd())
+  const useMock = env.VITE_USE_MOCK === 'true'
+
   return {
-    plugins: [vue(),
-      createSvgIconsPlugin({
-        //图标存放位置
-        iconDirs: [path.resolve(process.cwd(),'src/assets/icons')],
-        symbolId: 'icon-[dir]-[name]'
-      }),
+    plugins: [
+      vue(),
       viteMockServe({
-        mockPath: 'mock',//解析根目录下的mock文件夹
-        localEnabled: true,
-      }) as any 
+        mockPath: 'mock',
+        localEnabled: command === 'serve' && useMock,
+        prodEnabled: command !== 'serve' && useMock,
+        injectCode: `
+          import { setupProdMockServer } from './mock/mockProdServer';
+          setupProdMockServer();
+        `,
+        logger: true,
+        supportTs: true
+      })
     ],
     resolve: {
-      alias:{
-        //配置相对路径使用@代替src
-        '@':  path.resolve(__dirname, 'src') }
+      alias: {
+        '@': resolve(__dirname, 'src')
+      }
     },
-    //scss 全局变量配置
     css: {
       preprocessorOptions: {
         scss: {
-          javascriptEnabled: true,
-          additionalData: `@import "./src/styles/variable.scss";`, // 括号内才使用数学计算
-        },
-      },
+          additionalData: `@use "@/styles/variables.scss" as *;`
+        }
+      }
     },
+    server: {
+      port: 8888,
+      open: true,
+      proxy: !useMock ? {
+        '/api': {
+          target: env.VITE_API_URL,
+          changeOrigin: true
+        }
+      } : undefined
+    }
   }
 })
 

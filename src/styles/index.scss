@@ -1,3 +1,67 @@
-//引入清除默认样式
-@import './reset.scss';
+@use "sass:math";
+@use "variables" as *;
+@use "reset";
+
+// 全局样式重置
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-size: $font-size-base;
+  color: $text-primary;
+  background-color: $background-color;
+}
+
+// 通用样式类
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+// 布局相关
+.page-container {
+  padding: $spacing-medium;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+//滚动条外观设置
+::-webkit-scrollbar{
+  width: 10px;
+}
+
+::-webkit-scrollbar-track{
+  background: $sidebar-bg-color;
+}
+
+::-webkit-scrollbar-thumb{
+  width: 10px;
+  background-color: #333;
+  border-radius: 10px;
+}
 
